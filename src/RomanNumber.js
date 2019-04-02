@@ -1,77 +1,33 @@
-const ROMAN_ONE = "I";
-const ROMAN_FOUR = "IV";
-const ROMAN_FIVE = "V";
-const ROMAN_NINE = "IX";
-const ROMAN_TEN = "X";
-const ROMAN_FORTY = "XL";
-const NUMERIC_FOUR = 4;
-const NUMERIC_FIVE = 5;
-const NUMERIC_NINE = 9;
-const NUMERIC_TEN = 10;
-const NUMERIC_FORTY = 40;
-const EMPTY_STRING = "";
+const numberToRomanTable = {
+  1000: "M",
+  900: "CM",
+  500: "D",
+  400: "CD",
+  100: "C",
+  90: "XC",
+  50: "L",
+  40: "XL",
+  10: "X",
+  9: "IX",
+  5: "V",
+  4: "IV",
+  1: "I"
+};
+
+const keys = Object.keys(numberToRomanTable).reverse();
 
 class RomanNumber {
-  perform(input) {
-    let number = Number(input);
-    if (isNumericForty(number)) {
-      return ROMAN_FORTY;
-    }
-    if (isBetweenNumeric10and39(number)) {
-      let firstDigitNum = EMPTY_STRING;
-      let multiple = number / NUMERIC_TEN;
-      let secondDigitNum = ROMAN_TEN.repeat(multiple);
-      if (isNotDivisibleBy10(number)) {
-        let numArray = number.toString().split("");
-        let firstDigitNumber = Number(numArray[1]);
-        firstDigitNum = convertNumBetween1and9IntoRoman(firstDigitNumber);
+  perform(number) {
+    let result = "";
+
+    keys.forEach(key => {
+      while (number >= parseInt(key)) {
+        number -= parseInt(key);
+        result += numberToRomanTable[key];
       }
-      return secondDigitNum + firstDigitNum;
-    }
-    return convertNumBetween1and9IntoRoman(number);
+    });
+
+    return result;
   }
 }
-
 module.exports = new RomanNumber();
-
-function isNumericForty(number) {
-  return number === NUMERIC_FORTY;
-}
-
-function isBetweenNumeric10and39(number) {
-  return number >= NUMERIC_TEN;
-}
-function isNotDivisibleBy10(number) {
-  return number % NUMERIC_TEN !== 0;
-}
-
-function convertNumBetween1and9IntoRoman(number) {
-  if (isNumeric9(number)) {
-    return ROMAN_NINE;
-  }
-  if (isBetweenNumeric6and8(number)) {
-    let remainder = number % NUMERIC_FIVE;
-    let romanRemaider = ROMAN_ONE.repeat(remainder);
-    return ROMAN_FIVE + romanRemaider;
-  }
-  if (isNumeric5(number)) {
-    return ROMAN_FIVE;
-  }
-  if (isNumeric4(number)) {
-    return ROMAN_FOUR;
-  }
-  return ROMAN_ONE.repeat(number);
-}
-
-function isNumeric9(number) {
-  return number === NUMERIC_NINE;
-}
-function isBetweenNumeric6and8(number) {
-  return number > NUMERIC_FIVE;
-}
-function isNumeric5(number) {
-  return number === NUMERIC_FIVE;
-}
-function isNumeric4(number) {
-  return number === NUMERIC_FOUR;
-}
