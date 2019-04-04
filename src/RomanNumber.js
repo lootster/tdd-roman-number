@@ -46,7 +46,7 @@ class Converter {
   }
 
   romanToNumber(roman) {
-    let romanArray = roman.split('');
+    let romanArray = roman.toUpperCase().split('');
     let numeralArray = [];
     // Convert Roman to numeral
     romanArray.forEach(char => {
