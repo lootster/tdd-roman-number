@@ -33,7 +33,7 @@ const romanToNumberTable = {
 const romanKeys = Object.keys(romanToNumberTable).reverse();
 
 class Convert {
-  numToRom(number) {
+  numeralToRoman(number) {
     let result = "";
 
     numeralKeys.forEach(key => {
@@ -42,14 +42,13 @@ class Convert {
         result += numberToRomanTable[key];
       }
     });
-
     return result;
   }
 
-  romToNum(roman) {
+  romanToNumber(roman) {
     let romanArray = roman.split('');
     let numberArray = [];
-
+    // Convert Roman to numeral
     romanArray.forEach(char => {
       return romanKeys.forEach(key => {
         if (key === char) {
@@ -57,14 +56,14 @@ class Convert {
         }
       })
     });
-
+    // Numbers lesser than subsequent number are treated as negative
     let number = numberArray.map((num, index, array) => {
-      if (num < array[index + 1])
-        return array[index] * -1;
+      if (num < array[index + 1]) return array[index] * -1;
       else return num
     })
-
+    // Sum all the number in array 
     return number.reduce((a, b) => a + b)
   }
 }
+
 module.exports = new Convert();
