@@ -1,4 +1,4 @@
-const numberToRomanTable = {
+const numeralTable = {
   1000: "M",
   900: "CM",
   500: "D",
@@ -13,9 +13,9 @@ const numberToRomanTable = {
   4: "IV",
   1: "I"
 };
-const numeralKeys = Object.keys(numberToRomanTable).reverse();
+const numeralKeys = Object.keys(numeralTable).reverse();
 
-const romanToNumberTable = {
+const romanTable = {
   "M": 1000,
   "CM": 900,
   "D": 500,
@@ -30,16 +30,16 @@ const romanToNumberTable = {
   "IV": 4,
   "I": 1
 };
-const romanKeys = Object.keys(romanToNumberTable).reverse();
+const romanKeys = Object.keys(romanTable).reverse();
 
-class Convert {
+class Converter {
   numeralToRoman(number) {
     let result = "";
 
     numeralKeys.forEach(key => {
       while (number >= parseInt(key)) {
         number -= parseInt(key);
-        result += numberToRomanTable[key];
+        result += numeralTable[key];
       }
     });
     return result;
@@ -47,23 +47,23 @@ class Convert {
 
   romanToNumber(roman) {
     let romanArray = roman.split('');
-    let numberArray = [];
+    let numeralArray = [];
     // Convert Roman to numeral
     romanArray.forEach(char => {
       return romanKeys.forEach(key => {
         if (key === char) {
-          numberArray.push(romanToNumberTable[key])
+          numeralArray.push(romanTable[key])
         }
       })
     });
     // Numbers lesser than subsequent number are treated as negative
-    let number = numberArray.map((num, index, array) => {
-      if (num < array[index + 1]) return array[index] * -1;
-      else return num
+    let resultArray = numeralArray.map((number, index, array) => {
+      if (number < array[index + 1]) return array[index] * -1;
+      else return number
     })
     // Sum all the number in array 
-    return number.reduce((a, b) => a + b)
+    return resultArray.reduce((a, b) => a + b)
   }
 }
 
-module.exports = new Convert();
+module.exports = new Converter();
